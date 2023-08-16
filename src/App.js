@@ -1,24 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
-
+import React from 'react'
+import HomePage from './Component/HomePage';
+// import HomePage2 from './Component/HomePage2';
 function App() {
+
+
+
+
+  
+  
+
+    // const handleClick = (data )=>{
+    //   console.log("dnuefb 3rfbhc3rjfvchj3rvfcjhfr3vhvcf3ehvjd:" , data)
+    // //  setOnSaveData(data)
+    // //  console.log("ev fs",onSaveData)
+    //   // onCancel()
+    //     }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+    <div className=''>
+  {/* { showPopUp===true ? <Popup onCancel={onCancel}  /> : ""} */}
+    <HomePage />
+    {/* <HomePage2 /> */}
     </div>
+    </>
   );
 }
 
