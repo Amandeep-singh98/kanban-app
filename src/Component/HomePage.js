@@ -6,7 +6,9 @@ function Chart() {
     const [planning, setPlanning] = useState([])
     const [started, setStarted] = useState([])
     const [done, setDone] = useState([])
-
+    const [addMemberInput, setAddMemberInput] = useState(false)
+    const [member, setMember] = useState('')
+    const [showMembersData, setShowMmbersData] = useState([])
     const [data, setData] = useState({
         task: '',
         date: '',
@@ -19,6 +21,19 @@ function Chart() {
         taskType: ""
     })
 
+    const handleAddMemberChange = (e) => {
+        setMember(e.target.value)
+    }
+    const addMember = () => {
+        setAddMemberInput(true)
+
+    }
+    const saveAddMember = () => {
+        console.log(member)
+        setShowMmbersData([...showMembersData, member])
+        setMember('')
+        setAddMemberInput(false)
+    }
     const onAdd = () => {
         setShowPopUp(true)
         setData({
@@ -45,22 +60,22 @@ function Chart() {
                 var tempPlanning = planning
                 tempPlanning.splice(isEdit.index, 1)
                 setPlanning(tempPlanning)
-                console.log("planning",planning)
+                console.log("planning", planning)
                 break;
             }
-            case "started": {  
+            case "started": {
                 var tempStarted = started
                 tempStarted.splice(isEdit.index, 1)
                 setStarted(tempStarted)
-                console.log("started",started)
+                console.log("started", started)
 
                 break;
             }
             case "done": {
-               var tempDone = done
-               done.splice(isEdit.index,1)
-               setDone(tempDone)
-                console.log("done",done)
+                var tempDone = done
+                done.splice(isEdit.index, 1)
+                setDone(tempDone)
+                console.log("done", done)
 
                 break;
             }
@@ -71,29 +86,29 @@ function Chart() {
 
 
 
-    const onSave = (e, tasktype, doubleClickindex) => {
-        // e.preventDefault()
-        removeDataFromArray()
-
+    const onSave = () => {
         console.log("form submitted")
 
         if (data.list === "planning") {
-            if (isEdit.index > -1 && isEdit.taskType ==="planning") {
+            if (isEdit.index > -1 && isEdit.taskType === "planning") {
                 planning[isEdit.index] = data
                 // console.log("planning", planning)
             } else {
+                removeDataFromArray()
                 setPlanning([...planning, data])
             }
         } else if (data.list === "started") {
-            if (isEdit.index > -1 && isEdit.taskType ==="started") {
+            if (isEdit.index > -1 && isEdit.taskType === "started") {
                 started[isEdit.index] = data
             } else {
+                removeDataFromArray()
                 setStarted([...started, data])
             }
         } else if (data.list === "done") {
-            if (isEdit.index > -1 && isEdit.taskType ==="done") {
+            if (isEdit.index > -1 && isEdit.taskType === "done") {
                 done[isEdit.index] = data
             } else {
+                removeDataFromArray()
                 setDone([...done, data])
             }
         }
@@ -125,9 +140,15 @@ function Chart() {
     return (
         <>
             <div className='border-2 border-slate-500 py-6 m-6'>
-                <div className='flex justify-center'>
-                    <div>Task Board</div>
 
+                <div className='flex justify-between px-20'>
+                    <div>Task Board</div>
+                    <div className='flex items-center'>
+                        {showMembersData.map((value) => (
+                            <p className='mx-2'> {value} </p>
+                        ))}
+                        <button onClick={addMember} className='border-2 p-2'> Add Members</button>
+                    </div>
                 </div>
                 <div className='flex flex-row mt-10 mx-10 justify-around'>
                     <div>
@@ -160,7 +181,7 @@ function Chart() {
 
                             {started.map((value, index) => (
                                 <React.Fragment key={index}>
-                                    <div className='w-[285px] h-[100px] m-[5.5px] border-2 border-gray ' onDoubleClick={() => handleDoubleClick(index, value )}>
+                                    <div className='w-[285px] h-[100px] m-[5.5px] border-2 border-gray ' onDoubleClick={() => handleDoubleClick(index, value)}>
                                         <div className='p-1.5'>
                                             <div>{value.task}</div>
                                             <div>Due: {value.date}</div>
@@ -205,42 +226,48 @@ function Chart() {
             </div>
 
 
+            {addMemberInput === true ? <div className='w-[400px] text-center z-10  border-2 m-auto py-6 mt-[300px] bg-slate-100 absolute top-0 left-0 right-0'>
+                Add Member: <input onChange={handleAddMemberChange} value={member} minLength={!undefined && !null} className='border-2' type='text' placeholder='Enter member name' /> <br />
+                <button onClick={saveAddMember} className='border-2 m-4 font-medium w-[100px] '>Save</button>
+            </div> : ""}
 
 
             {showPopUp === true ?
                 <form>
                     <div className='w-[50%] z-10  border-2 m-auto py-6 mt-20 bg-purple-500 absolute top-0 left-0 right-0'>
-                    <div className='border-2 mx-auto w-[60%]'>
-                        <input onChange={handleOnChange} name='task' value={data.task} className='border-2 w-[100%]' type="text" placeholder='Task'  />
-                    </div>
-                    <div className='mx-auto w-[60%]  mt-10 flex justify-between'>
-                        <div className=' border-2'>
-                            <input onChange={handleOnChange} name='date' value={data.date} type="date" className='border-2 w-[100%]' /></div>
-                        <div className='w-[20%]'>
-                            <select onChange={handleOnChange} name='person' value={data.person} className="border-2"  >
-                                <option value="0">Select Person Name</option>
-                                <option value="rahul">Rahul</option>
-                                <option value="naman">Naman</option>
-                                <option value="ramesh">Ramesh</option>
-                            </select>
+                        <div className='border-2 mx-auto w-[60%]'>
+                            <input onChange={handleOnChange} name='task' value={data.task} className='border-2 w-[100%]' type="text" placeholder='Task' />
                         </div>
-                    </div>
-                    <div className='mx-auto w-[60%] mt-10 flex justify-end'>
-                        <div className='w-[20%]'>
-                            <select onChange={handleOnChange} name='list' value={data.list} className="border-2"  >
-                                <option value="check-list">Select List</option>
-                                <option value="planning" >Planning</option>
-                                <option value="started">Started</option>
-                                <option value="done">Done</option>
-                            </select>
+                        <div className='mx-auto w-[60%]  mt-10 flex justify-between'>
+                            <div>
+                                <input onChange={handleOnChange} name='date' value={data.date} type="date" className='border-2 w-[100%]' /></div>
+                            <div className='w-[20%]'>
+                            <p className='text-white'>Members: </p>
+                                <select onChange={handleOnChange} name='person' value={data.person} className="border-2"  >
+                                    <option value="0">-_-</option>
+                                    {showMembersData.map((value) => (
+                                     <option>{value}</option>
+                        ))}
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div className='mx-auto  mt-10 flex justify-center'>
-                        <button onClick={onSave} className='border-2 p-2 font-medium w-[100px] text-white'>Save</button>
-                        <button onClick={handleCancel} className='border-2 w-[100px] ml-6 p-2 font-medium text-white'>Cancel</button>
+                        <div className='mx-auto w-[60%] mt-10 flex justify-end'>
+                            <div className='w-[20%]'>
+                                <p className='text-white'>List: </p>
+                                <select onChange={handleOnChange} name='list' value={data.list} className="border-2"  >
+                                   <option value="check-list">-_-</option>
+                                    <option value="planning" >Planning</option>
+                                    <option value="started">Started</option>
+                                    <option value="done">Done</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className='mx-auto  mt-10 flex justify-center'>
+                            <button onClick={onSave} className='border-2 p-2 font-medium w-[100px] text-white'>Save</button>
+                            <button onClick={handleCancel} className='border-2 w-[100px] ml-6 p-2 font-medium text-white'>Cancel</button>
 
+                        </div>
                     </div>
-                </div>
                 </form> : ""}
         </>
 
