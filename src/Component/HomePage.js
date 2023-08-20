@@ -4,7 +4,8 @@ import Planned from "./Planned";
 import Start from "./Start";
 import Done from "./Done";
 import Popup from "./Popup"
-function Chart() {
+
+function HomePage() {
     const [showPopUp, setShowPopUp] = useState(false);
     const [planning, setPlanning] = useState([]);
     const [started, setStarted] = useState([]);
@@ -21,11 +22,9 @@ function Chart() {
     });
 
 
-
     const addMember = () => {
         setShowMemberPopup(!showMemberPopup);
     };
-
     const onAdd = () => {
         setShowPopUp(true);
     };
@@ -59,7 +58,6 @@ function Chart() {
         }
     }
 
-
     const onSave = () => {
         const allData = {
             taskData: taskData.current.value,
@@ -71,10 +69,8 @@ function Chart() {
             if (allData.listData === "planning") {
                 if (isEdit.index > -1 && isEdit.taskType === "planning") {
                     planning[isEdit.index] = allData;
-                    console.log("planning", planning)
-
+                    // console.log("planning", planning)
                 } else {
-
                     removeDataFromArray();
                     setPlanning([...planning, allData]);
                 }
@@ -100,16 +96,13 @@ function Chart() {
         }
         setShowPopUp(false);
     };
-
     const handleDoubleClick = (ind, value) => {
         setShowPopUp(true);
         setEdit({
             index: ind,
             taskType: value.listData,
         });
-
-        console.log("sdws", value);
-
+        // console.log("sdws", value);
     };
 
     return (
@@ -150,4 +143,4 @@ function Chart() {
     );
 }
 
-export default Chart;
+export default HomePage;
