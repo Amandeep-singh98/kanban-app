@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AddMember from "./AddMember";
 import Planned from "./Planned";
 import Start from "./Start";
@@ -70,7 +70,6 @@ function HomePage() {
             if (allData.listData === "planning") {
                 if (isEdit.index > -1 && isEdit.taskType === "planning") {
                     planning[isEdit.index] = allData;
-                    // console.log("planning", planning)
                 } else {
                     removeDataFromArray();
                     setPlanning([...planning, allData]);
@@ -93,19 +92,30 @@ function HomePage() {
             setEdit({
                 index: -1,
                 taskType: "",
+                editableValue : ''
             });
         }
         setShowPopUp(false);
     };
-    const handleDoubleClick = (ind, value) => { // 1 state update -> one rerender
+  
+
+    const handleDoubleClick = (ind, value) => { 
         setShowPopUp(true);
         setEdit({
             index: ind,
             taskType: value.listData,
-            editableValue: value
+            editableValue:{ ...value , value}
         });
         // console.log("sdws", value);
     };
+    useEffect(() => {
+        if (isEdit.editableValue !== '' && isEdit.editableValue.value) {
+            taskData.current.value = isEdit.editableValue.taskData;
+            dateData.current.value = isEdit.editableValue.dateData;
+            personData.current.value = isEdit.editableValue.personData;
+            listData.current.value = isEdit.editableValue.listData;
+        }
+    }, [ isEdit.index])
 
     return (
         <>
@@ -140,7 +150,7 @@ function HomePage() {
             </div>
 
             {showMemberPopup ? (<AddMember setMemberList={setMemberList} addMember={addMember} memberList={memberList} />) : ""}
-            {showPopUp ? <Popup editableValue={isEdit?.editableValue} onSave={onSave} onCancel={handleCancel} memberList={memberList} taskData={taskData} dateData={dateData} listData={listData} personData={personData} /> : ''}
+            {showPopUp ? <Popup onSave={onSave} onCancel={handleCancel} memberList={memberList} taskData={taskData} dateData={dateData} listData={listData} personData={personData} /> : ''}
         </>
     );
 }

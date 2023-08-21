@@ -1,22 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 
-function Popup({ onCancel, onSave, taskData, dateData, listData, personData, memberList, editableValue }) {
+function Popup({ onCancel, onSave, taskData, dateData, listData, personData, memberList}) {
     const onSaveFunc = () => {
         onSave()
     }
     function onCancelFunc() {
         onCancel()
     }
-
-    useEffect(() => {
-        if (editableValue.taskData && taskData?.current && editableValue.dateData && dateData?.current && editableValue.personData && personData?.current && editableValue.listData && listData?.current) {
-            taskData.current.value = editableValue.taskData;
-            dateData.current.value = editableValue.dateData;
-            personData.current.value = editableValue.personData;
-            listData.current.value = editableValue.listData;
-        }
-    }, [editableValue, taskData, dateData , personData , listData]);
 
     return (
 
