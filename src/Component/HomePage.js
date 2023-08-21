@@ -104,10 +104,6 @@ function HomePage() {
             taskType: value.listData,
             editableValue: value
         });
-        // const taskData = useRef();
-        // const dateData = useRef();
-        // const personData = useRef();
-        // const listData = useRef();
         // console.log("sdws", value);
     };
 

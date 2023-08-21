@@ -10,10 +10,13 @@ function Popup({ onCancel, onSave, taskData, dateData, listData, personData, mem
     }
 
     useEffect(() => {
-        if(editableValue.taskData && taskData?.current) {
+        if (editableValue.taskData && taskData?.current && editableValue.dateData && dateData?.current && editableValue.personData && personData?.current && editableValue.listData && listData?.current) {
             taskData.current.value = editableValue.taskData;
+            dateData.current.value = editableValue.dateData;
+            personData.current.value = editableValue.personData;
+            listData.current.value = editableValue.listData;
         }
-    }, [editableValue, taskData]);
+    }, [editableValue, taskData, dateData , personData , listData]);
 
     return (
 
