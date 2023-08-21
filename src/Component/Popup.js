@@ -1,13 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 
-function Popup({ onCancel, onSave, taskData, dateData, listData, personData, memberList }) {
+function Popup({ onCancel, onSave, taskData, dateData, listData, personData, memberList, editableValue }) {
     const onSaveFunc = () => {
         onSave()
     }
     function onCancelFunc() {
         onCancel()
     }
+
+    useEffect(() => {
+        if(editableValue.taskData && taskData?.current) {
+            taskData.current.value = editableValue.taskData;
+        }
+    }, [editableValue, taskData]);
+
     return (
 
         <form>

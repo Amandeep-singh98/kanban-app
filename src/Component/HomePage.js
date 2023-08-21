@@ -19,6 +19,7 @@ function HomePage() {
     const [isEdit, setEdit] = useState({
         index: -1,
         taskType: "",
+        editableValue: {}
     });
 
 
@@ -96,12 +97,17 @@ function HomePage() {
         }
         setShowPopUp(false);
     };
-    const handleDoubleClick = (ind, value) => {
+    const handleDoubleClick = (ind, value) => { // 1 state update -> one rerender
         setShowPopUp(true);
         setEdit({
             index: ind,
             taskType: value.listData,
+            editableValue: value
         });
+        // const taskData = useRef();
+        // const dateData = useRef();
+        // const personData = useRef();
+        // const listData = useRef();
         // console.log("sdws", value);
     };
 
@@ -138,7 +144,7 @@ function HomePage() {
             </div>
 
             {showMemberPopup ? (<AddMember setMemberList={setMemberList} addMember={addMember} memberList={memberList} />) : ""}
-            {showPopUp ? <Popup onSave={onSave} onCancel={handleCancel} memberList={memberList} taskData={taskData} dateData={dateData} listData={listData} personData={personData} /> : ''}
+            {showPopUp ? <Popup editableValue={isEdit?.editableValue} onSave={onSave} onCancel={handleCancel} memberList={memberList} taskData={taskData} dateData={dateData} listData={listData} personData={personData} /> : ''}
         </>
     );
 }
