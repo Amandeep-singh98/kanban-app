@@ -115,7 +115,7 @@ function HomePage() {
             personData.current.value = isEdit.editableValue.personData;
             listData.current.value = isEdit.editableValue.listData;
         }
-    }, [ isEdit.index])
+    }, [isEdit.editableValue])
 
     return (
         <>
